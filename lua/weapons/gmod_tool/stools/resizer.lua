@@ -80,8 +80,8 @@ end
 
 function TOOL:RightClick(trace)
     if trace.HitNonWorld and trace.Entity ~= nil and trace.Entity ~= 0 then
-        if SERVER and trace.Entity:GetClass() == "prop_physics" and trace.Entity.propResizerSize then
-            local scale = trace.Entity.propResizerSize
+        if SERVER and trace.Entity:GetClass() == "prop_physics" then
+            local scale = trace.Entity.propResizerSize or Vector(1,1,1)
             net.Start("resizer_getsize")
             net.WriteVector(scale)
             net.Send(self:GetOwner())
