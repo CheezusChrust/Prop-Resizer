@@ -22,10 +22,10 @@ if CLIENT then
     cvars.AddChangeCallback("resizer_xyzsize", _resizer_xyzcallback)
 
     net.Receive("resizer_getsize", function()
-        local scale = net.ReadVector()
-        RunConsoleCommand("resizer_xsize", scale.x)
-        RunConsoleCommand("resizer_ysize", scale.y)
-        RunConsoleCommand("resizer_zsize", scale.z)
+        local x, y, z = net.ReadInt(14) / 100, net.ReadInt(14) / 100, net.ReadInt(14) / 100
+        RunConsoleCommand("resizer_xsize", x)
+        RunConsoleCommand("resizer_ysize", y)
+        RunConsoleCommand("resizer_zsize", z)
     end)
 end
 
@@ -81,9 +81,11 @@ end
 function TOOL:RightClick(trace)
     if trace.HitNonWorld and trace.Entity ~= nil and trace.Entity ~= 0 then
         if SERVER and trace.Entity:GetClass() == "prop_physics" then
-            local scale = trace.Entity.propResizerSize or Vector(1,1,1)
+            local scale = trace.Entity.propResizerSize or Vector(1, 1, 1)
             net.Start("resizer_getsize")
-            net.WriteVector(scale)
+            net.WriteInt(scale.x * 100, 14) --Using ints because writeVector + low decimals ends in weird floating point errors
+            net.WriteInt(scale.y * 100, 14)
+            net.WriteInt(scale.z * 100, 14)
             net.Send(self:GetOwner())
         end
 
