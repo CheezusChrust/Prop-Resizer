@@ -4,9 +4,23 @@ TOOL.Command = nil
 TOOL.ConfigName = ""
 
 if CLIENT then
+    TOOL.Information = {
+        {
+            name = "left"
+        },
+        {
+            name = "right"
+        },
+        {
+            name = "reload"
+        }
+    }
+
     language.Add("Tool.resizer.name", "Resizer")
     language.Add("Tool.resizer.desc", "Resizes props/ragdolls/NPCs")
-    language.Add("Tool.resizer.0", "Click on an object to resize it. Right click to copy size. Reload to reset to default size.")
+    language.Add("Tool.resizer.left", "Resize a prop")
+    language.Add("Tool.resizer.right", "Copy prop size")
+    language.Add("Tool.resizer.reload", "Reset to default size")
     CreateClientConVar("resizer_xsize", "1", false, true, "", -50, 50)
     CreateClientConVar("resizer_ysize", "1", false, true, "", -50, 50)
     CreateClientConVar("resizer_zsize", "1", false, true, "", -50, 50)
